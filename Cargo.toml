@@ -2,5 +2,7 @@
 name = "is-dir-symlink"
 version = "0.1.0"
 edition = "2021"
+authors = ["Eliah Kagan <degeneracypressure@gmail.com>"]
+license = "0BSD"
 
 [dependencies]
