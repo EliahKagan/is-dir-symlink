@@ -1,1 +1,4 @@
 /target
+/directory
+/file-symlink
+/dir-symlink
