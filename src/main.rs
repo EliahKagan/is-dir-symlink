@@ -1,10 +1,5 @@
+use std::fs::metadata;
 use std::path::Path;
-
-#[derive(Debug)]
-enum BoolOrErrorKind {
-    Value(bool),
-    Kind(std::io::ErrorKind),
-}
 
 fn main() {
     let paths = [
@@ -39,12 +34,12 @@ fn main() {
     println!();
 
     for path in paths {
-        let is_dir = match Path::new(path).metadata() {
+        let is_dir = match metadata(path) {
             Ok(m) => format!("Ok({})", m.is_dir()),
             Err(e) => format!("Err({:?})", e.kind()),
         };
         println!("{}: Metadata::is_dir() -> {}", path, is_dir);
     }
 
-    // TODO: Cover is_directory()
+    // TODO: Also cover is_directory() - or is it not part of the public API?
 }
