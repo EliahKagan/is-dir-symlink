@@ -40,10 +40,10 @@ fn main() {
 
     for path in paths {
         let is_dir = match Path::new(path).metadata() {
-            Ok(m) => BoolOrErrorKind::Value(m.is_dir()),
-            Err(e) => BoolOrErrorKind::Kind(e.kind()),
+            Ok(m) => format!("Ok({})", m.is_dir()),
+            Err(e) => format!("Err({:?})", e.kind()),
         };
-        println!("{}: Metadata::is_dir() -> {:?}", path, is_dir);
+        println!("{}: Metadata::is_dir() -> {}", path, is_dir);
     }
 
     // TODO: Cover is_directory()
