@@ -1,7 +1,13 @@
 use std::path::Path;
 
+#[derive(Debug)]
+enum BoolOrErrorKind {
+    Value(bool),
+    Kind(std::io::ErrorKind),
+}
+
 fn main() {
-    for path in [
+    let paths = [
         "file",
         "dir",
 
@@ -24,7 +30,21 @@ fn main() {
         "dir-symlink-to-file-symlink-to-nonexistent",
         "file-symlink-to-dir-symlink-to-nonexistent",
         "dir-symlink-to-dir-symlink-to-nonexistent",
-    ] {
-        println!("{}: {}", path, Path::new(path).is_dir());
+    ];
+
+    for path in paths {
+        println!("{}: Path::is_dir() -> {}", path, Path::new(path).is_dir());
     }
+
+    println!();
+
+    for path in paths {
+        let is_dir = match Path::new(path).metadata() {
+            Ok(m) => BoolOrErrorKind::Value(m.is_dir()),
+            Err(e) => BoolOrErrorKind::Kind(e.kind()),
+        };
+        println!("{}: Metadata::is_dir() -> {:?}", path, is_dir);
+    }
+
+    // TODO: Cover is_directory()
 }
